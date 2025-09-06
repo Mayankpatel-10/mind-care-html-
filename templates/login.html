@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>Login - MindWell</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body class="login-bg">
+    <!-- Theme Switch -->
+    <div class="theme-switch-wrapper">
+        <label class="theme-switch" for="themeToggle">
+            <input type="checkbox" id="themeToggle" />
+            <div class="slider"></div>
+        </label>
+        <span class="mode-label">Light Mode</span>
+    </div>
+    <!-- Login Card Centered -->
+    <div class="login-card">
+        <form method="POST" class="login-form">
+            <h2>MindWell Login</h2>
+            {% if error %}
+                <p class="error-msg">{{ error }}</p>
+            {% endif %}
+            <label for="username">Username</label>
+            <input type="text" id="username" name="username" required autofocus />
+
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" required />
+
+            <button type="submit">Login</button>
+        </form>
+    </div>
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
