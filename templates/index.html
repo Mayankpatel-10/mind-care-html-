@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>MindWell Dashboard</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+<div class="container">
+
+    <section class="mood-section card">
+        <h2>How are you feeling today?</h2>
+        <div class="mood-options">
+            <button class="mood-btn" data-mood="awful">😡<span>Awful</span></button>
+            <button class="mood-btn" data-mood="sad">😔<span>Sad</span></button>
+            <button class="mood-btn" data-mood="neutral">😐<span>Neutral</span></button>
+            <button class="mood-btn" data-mood="good">😊<span>Good</span></button>
+            <button class="mood-btn" data-mood="great">🤩<span>Great</span></button>
+        </div>
+        <textarea id="mood-note" placeholder="Add a note about your mood (optional)"></textarea>
+        <button id="saveMood">Save Mood</button>
+    </section>
+
+    <section class="chat-section card">
+        <h2>MindWell Chat Assistant</h2>
+        <div class="chat-box" id="chatBox"></div>
+        <form id="chatForm" autocomplete="off">
+            <input type="text" id="chatInput" placeholder="Type your message..."/>
+            <button type="submit">➤</button>
+        </form>
+    </section>
+
+    <section class="trends-section card">
+        <h2>Your Mood Trends</h2>
+        <canvas id="moodChart"></canvas>
+    </section>
+
+    <section class="relax-section card">
+        <h2>Relaxation Station</h2>
+        <div class="audio-section">
+            <audio controls id="relaxAudio">
+                <source src="" type="audio/mpeg">
+            </audio>
+            <div>
+                <button class="sound-btn" data-sound="nature">Nature</button>
+                <button class="sound-btn" data-sound="rain">Rain</button>
+                <button class="sound-btn" data-sound="meditation">Meditation</button>
+            </div>
+        </div>
+    </section>
+
+    <section class="assessment-section card">
+        <h2>Mental Health Assessments</h2>
+        <div class="tabs">
+            <button class="tab-btn active" data-tab="anxiety">Anxiety Assessment</button>
+            <button class="tab-btn" data-tab="depression">Depression Assessment</button>
+            <button class="tab-btn" data-tab="stress">Stress Assessment</button>
+        </div>
+        <div id="assessmentContent"></div>
+    </section>
+
+    <section class="resources-section card">
+        <h2>Resources & Knowledge</h2>
+        <div class="resource-cards">
+            <div class="resource-card">
+                <h3>Coping with Anxiety</h3>
+                <p>Learn effective techniques to manage anxiety in your daily life.</p>
+                <button>Read Article</button>
+            </div>
+            <div class="resource-card">
+                <h3>Meditation Guide</h3>
+                <p>A beginner's guide to meditation for stress relief and clarity.</p>
+                <button>Read Guide</button>
+            </div>
+            <div class="resource-card">
+                <h3>Sleep Better</h3>
+                <p>Improve your sleep quality with these evidence-based techniques.</p>
+                <button>Read Article</button>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-nav">
+            <div>Mindfulness<br><span>Practice techniques</span></div>
+            <div>Resources<br><span>Educational content</span></div>
+            <div>Tracking<br><span>Monitor progress</span></div>
+            <div>Support<br><span>Get help</span></div>
+        </div>
+    </footer>
+</div>
+<script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>

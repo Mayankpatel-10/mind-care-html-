@@ -1,0 +1,295 @@
+body {
+    margin: 0;
+    font-family: 'Segoe UI', sans-serif;
+    background: #f6f8fc;
+}
+.container {
+    width: 98vw;
+    max-width: 1200px;
+    margin: 20px auto;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 24px;
+    justify-content: center;
+}
+.card {
+    background: linear-gradient(135deg, #716dab 0%, #509fe5 100%);
+    border-radius: 16px;
+    padding: 32px 24px;
+    color: #fff;
+    box-shadow: 0 4px 18px 0 rgba(79, 117, 214, 0.12);
+    margin-bottom: 20px;
+    min-width: 320px;
+    max-width: 520px;
+    flex: 1;
+}
+
+h2 {
+    margin-top: 0;
+    margin-bottom: 18px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+.mood-section .mood-options {
+    display: flex;
+    justify-content: space-evenly;
+    margin-bottom: 14px;
+    gap: 10px;
+}
+.mood-btn {
+    background: none;
+    border: none;
+    font-size: 2.2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transition: transform 0.2s;
+    color: #ffea00;
+}
+.mood-btn span {
+    font-size: 1rem;
+    color: #fff;
+    margin-top: 4px;
+}
+.mood-btn.selected, .mood-btn:active {
+    background: rgba(255,255,255,0.15);
+    border-radius: 12px;
+    transform: scale(1.1);
+}
+textarea {
+    width: 100%;
+    min-height: 50px;
+    border-radius: 10px;
+    border: none;
+    padding: 12px;
+    margin: 10px 0;
+    font-size: 1em;
+    resize: vertical;
+}
+#mood-note:focus {
+    outline: 2px solid #7eabe7;
+}
+#saveMood {
+    background: #ede7fd;
+    color: #5a5ebd;
+    border: none;
+    border-radius: 8px;
+    padding: 10px 32px;
+    font-weight: bold;
+    font-size: 1.03em;
+    margin-top: 6px;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+#saveMood:hover {
+    background: #b7b4fa;
+}
+
+.chat-section, .relax-section, .trends-section, .assessment-section, .resources-section {
+    min-width: 340px;
+    max-width: 420px;
+}
+.chat-box {
+    background: #fff;
+    color: #444;
+    border-radius: 10px;
+    min-height: 120px;
+    max-height: 180px;
+    overflow-y: auto;
+    padding: 12px;
+    margin-bottom: 12px;
+}
+#chatInput {
+    width: 75%;
+    padding: 7px;
+    border-radius: 8px;
+    border: none;
+}
+#chatForm button {
+    background: #543fde;
+    color: #fff;
+    border: none;
+    border-radius: 50%;
+    width: 39px;
+    height: 39px;
+    font-size: 1.24rem;
+    margin-left: 8px;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+#chatForm button:hover {
+    background: #2563c7;
+}
+
+.trends-section {
+    padding-bottom: 12px;
+}
+
+.relax-section audio {
+    width: 90%;
+    margin: 16px 0;
+}
+.sound-btn {
+    background: rgba(255,255,255,0.23);
+    border: none;
+    color: #fff;
+    padding: 7px 17px;
+    border-radius: 7px;
+    margin: 0 5px;
+    cursor: pointer;
+}
+.sound-btn:hover {
+    background: #fff;
+    color: #3c70c6;
+}
+
+.tabs {
+    display: flex;
+    gap: 9px;
+    margin-bottom: 13px;
+}
+.tab-btn {
+    background: rgba(255,255,255,0.12);
+    border: none;
+    color: #fff;
+    padding: 8px 22px;
+    border-radius: 8px 8px 0 0;
+    cursor: pointer;
+    font-weight: 500;
+}
+.tab-btn.active {
+    background: #fff;
+    color: #4e6ded;
+}
+#assessmentContent {
+    background: #fff;
+    margin-top: -7px;
+    color: #393e66;
+    border-radius: 10px;
+    padding: 15px;
+    min-height: 70px;
+}
+.resource-cards {
+    display: flex;
+    gap: 15px;
+}
+.resource-card {
+    background: #fff;
+    color: #504282;
+    border-radius: 10px;
+    padding: 17px 14px;
+    width: 128px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+}
+.resource-card button {
+    background: #ede7fd;
+    color: #5a5ebd;
+    border: none;
+    border-radius: 7px;
+    padding: 5px 18px;
+    font-weight: 600;
+    cursor: pointer;
+}
+footer {
+    background: none;
+    margin: 25px 0 0 0;
+    text-align: center;
+}
+.footer-nav {
+    display: flex;
+    justify-content: space-evenly;
+    gap: 32px;
+    color: #79a6d1;
+    padding: 18px 0 0 0;
+}
+.footer-nav div {
+    font-weight: 500;
+    font-size: 1.02em;
+}
+.footer-nav span {
+    display: block;
+    font-size: 0.87em;
+    color: #a5cff1;
+}
+@media (max-width: 900px) {
+    .container {
+        flex-direction: column;
+        align-items: center;
+    }
+    .card, .trends-section, .chat-section, .assessment-section {
+        max-width: 94vw;
+        min-width: 320px;
+    }
+    .resource-cards {
+        flex-direction: column;
+        width: 100%;
+    }
+    .resource-card {
+        width: auto;
+    }
+}
+@media (max-width: 400px) {
+    .mood-section .mood-options {
+        flex-wrap: wrap;
+    }
+    .mood-btn {
+        font-size: 1.8rem;
+    }
+}
+@media (max-width: 350px) {
+    .mood-btn span {
+        font-size: 0.9rem;
+    }
+}
+@media (max-width: 320px) {
+    #chatInput {
+        width: 68%;
+    }
+}
+@media (max-width: 280px) {
+    #chatInput {
+        width: 60%;
+    }
+}
+@media (max-width: 240px) {
+    #chatInput {
+        width: 50%;
+    }
+}
+@media (max-width: 200px) {
+    #chatInput {
+        width: 40%;
+    }
+}
+/* Scrollbar styling for chat box */
+.chat-box::-webkit-scrollbar {
+    width: 8px;
+}   
+.chat-box::-webkit-scrollbar-thumb {
+    background: #c1c1c1;
+    border-radius: 4px;
+}
+
+.chat-box::-webkit-scrollbar-thumb:hover {
+    background: #a8a8a8;
+}
+.chat-box::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 4px;
+}
+.chat-box::-webkit-scrollbar-track:hover {
+    background: #e1e1e1;
+}
+/* For Firefox */
+.chat-box {
+    scrollbar-width: thin;
+    scrollbar-color: #c1c1c1 #f1f1f1;
+}
+.chat-box:hover {
+    scrollbar-color: #a8a8a8 #e1e1e1;
+}
