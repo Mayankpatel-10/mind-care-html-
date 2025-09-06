@@ -18,111 +18,138 @@ body {
     transition: background 0.4s, color 0.4s;
 }
 
-/* Dashboard grid layout */
+/* Pinterest-style grid layout */
 .dashboard-grid {
     display: grid;
-    grid-template-areas:
-        "mood chat"
-        "trends chat"
-        "assessment relax"
-        "resources resources"
-        "footer footer";
-    grid-template-columns: 2fr 1.2fr;
-    grid-template-rows: auto auto auto auto 80px;
-    width: 97vw;
-    max-width: 1220px;
-    margin: 32px auto 0 auto;
-    gap: 25px;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    grid-auto-rows: minmax(200px, auto);
+    gap: 20px;
+    padding: 20px;
+    width: 95%;
+    max-width: 1280px;
+    margin: 60px auto 20px auto;
 }
 
-.mood-section        { grid-area: mood; }
-.trends-section      { grid-area: trends; }
-.chat-section        { grid-area: chat; }
-.relax-section       { grid-area: relax; }
-.assessment-section  { grid-area: assessment; }
-.resources-section   { grid-area: resources; }
-.guide-section       { grid-area: guide; }
-.footer               { grid-area: footer; }
+/* Card sizing variations (Pinterest style) */
+/* Smaller cards */
+.mood-section { 
+    grid-row: span 1; 
+    min-height: 240px;
+}
+.chat-section { 
+    grid-row: span 2; 
+    min-height: 280px;
+}
+.relax-section { 
+    grid-row: span 1; 
+    min-height: 240px;
+}
+
+/* Regular sized cards */
+.trends-section { 
+    grid-row: span 1; 
+    min-height: 240px;
+}
+.assessment-section { 
+    grid-row: span 1; 
+    min-height: 240px;
+}
+.resources-section { 
+    grid-column: 1 / -1;
+    min-height: 180px;
+}
 
 .card {
     background: var(--card-light);
     color: #fff;
     border-radius: var(--card-radius);
-    box-shadow: 0 4px 24px rgba(79, 117, 214, 0.11);
-    padding: 32px 24px;
-    width: 100%;
-    min-width: 260px;
-    transition: background 0.4s, color 0.4s;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    break-inside: avoid;
 }
+
+/* Make specific cards more compact */
+.mood-section .card,
+.chat-section .card,
+.relax-section .card {
+    padding: 18px;
+}
+
+.mood-section .card h2,
+.chat-section .card h2,
+.relax-section .card h2 {
+    margin-bottom: 14px;
+    font-size: 1.2rem;
+}
+
+/* Pinterest-style card hover effect */
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 20px rgba(0, 0, 0, 0.15);
+}
+
 .card h2 {
     margin-top: 0;
     margin-bottom: 18px;
     font-weight: 600;
+    font-size: 1.3rem;
+}
+
+/* Resource cards - Pinterest pin style */
+.resource-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 16px;
+    margin-top: 16px;
 }
 
 .resource-card {
     background: #fff;
     color: var(--text-light);
-    border-radius: 13px;
-    padding: 18px 16px;
-    margin-bottom: 0;
-    box-shadow: 0 2px 10px rgba(93,121,185,0.09);
-    flex: 1 1 240px;
+    border-radius: 16px;
+    padding: 16px;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+    transition: all 0.2s ease;
+    break-inside: avoid;
 }
+
+.resource-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.1);
+}
+
 .resource-card button {
     background: #ede7fd;
     color: #543fde;
     border: none;
-    border-radius: 7px;
-    padding: 8px 20px;
+    border-radius: 20px;
+    padding: 8px 16px;
     font-weight: 600;
     cursor: pointer;
+    font-size: 0.9rem;
+    transition: all 0.2s ease;
 }
 
-.resource-cards {
-    display: flex;
-    gap: 15px;
-    flex-wrap: wrap;
+.resource-card button:hover {
+    background: #e0d7fc;
+    transform: scale(1.05);
 }
 
 .guide-section {
     margin-top: 20px;
     text-align: center;
-    }
-
+}
 
 .footer {
+    grid-column: 1 / -1;
     background: none;
     text-align: center;
     color: #79a6d1;
     padding: 20px;
-}
-
-.relax-section {
-    min-width: 340px;
-    max-width: 520px;
-}
-
-@media (max-width: 980px) {
-    .dashboard-grid {
-        grid-template-areas:
-            "mood"
-            "trends"
-            "chat"
-            "relax"
-            "assessment"
-            "resources"
-            "footer";
-        grid-template-columns: 1fr;
-        grid-template-rows: repeat(7, auto);
-        gap: 18px;
-    }
-    .relax-section { max-width: 100%; }
-}
-
-@media (max-width: 600px) {
-    .dashboard-grid { max-width: 99vw; }
-    .card { padding: 16px 7px; min-width: 0; }
+    margin-top: 30px;
 }
 
 /* Dark Theme */
@@ -130,14 +157,17 @@ body.dark-theme {
     background: var(--bg-dark);
     color: var(--text-dark);
 }
+
 body.dark-theme .card {
     background: var(--card-dark);
     color: var(--text-dark);
 }
+
 body.dark-theme .resource-card {
     background: #23266a;
     color: #eee;
 }
+
 body.dark-theme footer {
     color: var(--accent-dark);
 }
@@ -151,6 +181,7 @@ body.login-bg, html.login-bg {
     justify-content: center;
     background: var(--bg-light);
 }
+
 body.dark-theme.login-bg, html.dark-theme.login-bg {
     background: var(--bg-dark);
 }
@@ -158,86 +189,178 @@ body.dark-theme.login-bg, html.dark-theme.login-bg {
 .login-card {
     background: var(--card-light);
     color: #fff;
-    border-radius: 19px;
-    box-shadow: 0 8px 32px rgba(79,117,214,0.13);
-    padding: 44px 38px 34px 38px;
+    border-radius: 24px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    padding: 40px 35px 30px 35px;
     width: 340px;
     display: flex;
     flex-direction: column;
     align-items: stretch;
-    transition: background 0.4s, color 0.4s;
+    transition: all 0.3s ease;
 }
+
+.login-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+}
+
 body.dark-theme .login-card {
     background: var(--card-dark);
     color: #fff;
 }
+
 .login-card h2 {
     margin-bottom: 24px;
+    text-align: center;
 }
+
 .login-card label {
     font-weight: 600;
     margin: 10px 0 3px;
     color: inherit;
 }
+
 .login-card input[type="text"], 
 .login-card input[type="password"] {
     font-size: 1.1rem;
-    border-radius: 8px;
+    border-radius: 12px;
     border: 1px solid #d2d4e6;
-    padding: 10px;
+    padding: 12px;
     margin-bottom: 16px;
+    transition: all 0.2s ease;
 }
+
+.login-card input[type="text"]:focus, 
+.login-card input[type="password"]:focus {
+    outline: none;
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(84, 63, 222, 0.2);
+}
+
 body.dark-theme .login-card input {
     border: 1px solid #3a445f;
     background: #222a3a;
     color: #eee;
 }
+
 .login-card button {
     background: #4269ee;
     color: #fff;
     border: none;
-    border-radius: 8px;
+    border-radius: 20px;
     padding: 12px;
     font-size: 1rem;
     cursor: pointer;
     font-weight: bold;
     margin-top: 8px;
-    transition: background 0.3s;
-}
-.login-card button:hover {
-    background: #3251c8;
+    transition: all 0.3s ease;
 }
 
-/* Theme Toggle Switch */
+.login-card button:hover {
+    background: #3251c8;
+    transform: translateY(-2px);
+}
+
+/* Theme Toggle Switch - Pinterest style floating button */
 .theme-switch-wrapper {
     position: fixed;
-    top: 23px;
-    right: 27px;
+    top: 20px;
+    right: 20px;
     user-select: none;
     display: flex;
     align-items: center;
     gap: 8px;
     z-index: 1000;
 }
+
 .theme-switch {
     position: relative;
     width: 50px;
     height: 24px;
 }
+
 .theme-switch input {
-    opacity: 0; width: 0; height: 0;
+    opacity: 0;
+    width: 0;
+    height: 0;
 }
+
 .slider {
-    position: absolute; top: 0; left: 0; right: 0; bottom: 0;
-    background: #ccc; border-radius: 24px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: #ccc;
+    border-radius: 24px;
     transition: 0.4s;
+    cursor: pointer;
 }
+
 .slider:before {
-    position: absolute; content: ""; height: 18px; width: 18px;
-    left: 3px; bottom: 3px; background: #fff; border-radius: 50%;
+    position: absolute;
+    content: "";
+    height: 18px;
+    width: 18px;
+    left: 3px;
+    bottom: 3px;
+    background: #fff;
+    border-radius: 50%;
     transition: 0.4s;
 }
-.theme-switch input:checked + .slider { background: var(--accent); }
-.theme-switch input:checked + .slider:before { transform: translateX(26px); }
-.mode-label { font-size: 0.9rem; color: var(--accent); transition: color 0.5s ease; }
-body.dark-theme .mode-label { color: var(--accent-dark); }
+
+.theme-switch input:checked + .slider {
+    background: var(--accent);
+}
+
+.theme-switch input:checked + .slider:before {
+    transform: translateX(26px);
+}
+
+.mode-label {
+    font-size: 0.9rem;
+    color: var(--accent);
+    transition: color 0.5s ease;
+    font-weight: 600;
+}
+
+body.dark-theme .mode-label {
+    color: var(--accent-dark);
+}
+
+/* Responsive adjustments */
+@media (max-width: 980px) {
+    .dashboard-grid {
+        grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+        gap: 16px;
+        padding: 16px;
+        margin-top: 50px;
+    }
+    
+    .resource-cards {
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    }
+}
+
+@media (max-width: 600px) {
+    .dashboard-grid {
+        grid-template-columns: 1fr;
+        gap: 12px;
+        padding: 12px;
+    }
+    
+    .card {
+        padding: 18px 14px;
+    }
+    
+    .mood-section .card,
+    .chat-section .card,
+    .relax-section .card {
+        padding: 16px 12px;
+    }
+    
+    .login-card {
+        width: 85%;
+        padding: 30px 25px;
+    }
+}
