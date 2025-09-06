@@ -131,3 +131,30 @@ document.querySelectorAll('.tab-btn').forEach(btn => {
     });
 });
 renderAssessment();
+
+// Theme toggle elements
+const themeToggle = document.getElementById('themeToggle');
+const modeLabel = document.querySelector('.mode-label');
+
+// Load theme from localStorage
+const savedTheme = localStorage.getItem('theme') || 'light';
+if (savedTheme === 'dark') {
+  document.body.classList.add('dark-theme');
+  themeToggle.checked = true;
+  modeLabel.textContent = 'Dark Mode';
+} else {
+  modeLabel.textContent = 'Light Mode';
+}
+
+// Update theme on toggle
+themeToggle.addEventListener('change', () => {
+    if (themeToggle.checked) {
+        document.body.classList.add('dark-theme');
+        modeLabel.textContent = 'Dark Mode';
+        localStorage.setItem('theme', 'dark');
+    } else {
+        document.body.classList.remove('dark-theme');
+        modeLabel.textContent = 'Light Mode';
+        localStorage.setItem('theme', 'light');
+    }
+});
