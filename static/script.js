@@ -1,4 +1,4 @@
-// Mood Selection
+// --- Mood Selection ---
 let selectedMood = null;
 const moodBtns = document.querySelectorAll('.mood-btn');
 moodBtns.forEach(btn => {
@@ -9,7 +9,7 @@ moodBtns.forEach(btn => {
     });
 });
 
-// Save Mood
+// --- Save Mood ---
 document.getElementById('saveMood').addEventListener('click', async () => {
     const note = document.getElementById('mood-note').value;
     if (!selectedMood) {
@@ -24,7 +24,7 @@ document.getElementById('saveMood').addEventListener('click', async () => {
     alert("Mood saved!");
 });
 
-// Chart.js Mood Trend
+// --- Chart.js Mood Trend ---
 let moodChart = null;
 fetch('/api/mood/trends')
     .then(res => res.json())
@@ -46,7 +46,7 @@ fetch('/api/mood/trends')
         });
     });
 
-// Relaxation Station Sounds
+// --- Relaxation Station Sounds ---
 const sounds = {
     nature: "/static/nature.mp3",
     rain: "/static/rain.mp3",
@@ -59,7 +59,43 @@ document.querySelectorAll('.sound-btn').forEach(btn => {
     });
 });
 
-// Chat Assistant Gemini API (calls Flask backend)
+// --- Chat Assistant: Text + Voice ---
+// Text-to-Speech: speaks assistant replies
+function speak(text) {
+    if ('speechSynthesis' in window) {
+        const utter = new SpeechSynthesisUtterance(text);
+        utter.lang = 'en-US';
+        window.speechSynthesis.speak(utter);
+    }
+}
+
+// Speech Recognition: mic button triggers this
+let recognition = null;
+if ('webkitSpeechRecognition' in window) {
+    recognition = new webkitSpeechRecognition();
+} else if ('SpeechRecognition' in window) {
+    recognition = new SpeechRecognition();
+}
+if (recognition) {
+    recognition.lang = 'en-US';
+    recognition.interimResults = false;
+    recognition.onresult = (event) => {
+        const transcript = event.results[0][0].transcript;
+        document.getElementById('chatInput').value = transcript;
+        document.getElementById('chatForm').dispatchEvent(new Event('submit', {cancelable: true, bubbles: true}));
+    };
+    recognition.onerror = (event) => {
+        alert("Speech Recognition Error: " + event.error);
+    };
+}
+const micBtn = document.getElementById('micBtn');
+if(micBtn) {
+    micBtn.addEventListener('click', () => {
+        if (recognition) recognition.start();
+        else alert("Speech recognition not supported in this browser.");
+    });
+}
+
 const chatBox = document.getElementById('chatBox');
 document.getElementById('chatForm').addEventListener('submit', async (e) => {
     e.preventDefault();
@@ -80,9 +116,11 @@ document.getElementById('chatForm').addEventListener('submit', async (e) => {
     const botMsgEl = document.querySelector(".bot-msg:last-child");
     botMsgEl.textContent = json.reply;
     chatBox.scrollTop = chatBox.scrollHeight;
+    // Voice output for assistant reply
+    speak(json.reply);
 });
 
-// Assessments (dummy content, implement real logic as needed)
+// --- Assessments (dummy content, implement real logic as needed) ---
 const assessments = {
     anxiety: [
         "How often have you felt nervous, anxious, or on edge over the last two weeks?",
@@ -132,11 +170,9 @@ document.querySelectorAll('.tab-btn').forEach(btn => {
 });
 renderAssessment();
 
-// Theme toggle elements
+// --- Theme toggle elements ---
 const themeToggle = document.getElementById('themeToggle');
 const modeLabel = document.querySelector('.mode-label');
-
-// Load theme from localStorage
 const savedTheme = localStorage.getItem('theme') || 'light';
 if (savedTheme === 'dark') {
   document.body.classList.add('dark-theme');
@@ -145,8 +181,6 @@ if (savedTheme === 'dark') {
 } else {
   modeLabel.textContent = 'Light Mode';
 }
-
-// Update theme on toggle
 themeToggle.addEventListener('change', () => {
     if (themeToggle.checked) {
         document.body.classList.add('dark-theme');
