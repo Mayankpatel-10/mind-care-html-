@@ -364,3 +364,20 @@ body.dark-theme .mode-label {
         padding: 30px 25px;
     }
 }
+
+#micBtn {
+    background: var(--accent);
+    color: #fff;
+    border: none;
+    border-radius: 50%;
+    width: 36px;
+    height: 36px;
+    font-size: 1.2rem;
+    margin-right: 6px;
+    cursor: pointer;
+    transition: background 0.3s;
+    vertical-align: middle;
+}
+#micBtn:hover {
+    background: var(--accent-dark);
+}
