@@ -593,7 +593,7 @@ body.dark-theme {
   --dark-yellow-hover: #9b6f08;
   --light-bg: #ffffff;
   --light-text: #000000;
-  --dark-bg: #000000;
+  --dark-bg: #212020;
   --dark-text: #ffffff;
 }
 
@@ -649,19 +649,6 @@ body.dark .theme-switch-wrapper {
 
 body.dark .theme-switch {
   background: #333;
-}
-
-.theme-switch::after {
-  content: "";
-  position: absolute;
-  width: 22px;
-  height: 22px;
-  border-radius: 50%;
-  top: 2px;
-  left: 3px;
-  background: var(--light-bg);
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
-  transition: left 0.3s ease;
 }
 
 .theme-switch-wrapper input[type="checkbox"]:checked + .theme-switch::after {
@@ -979,6 +966,15 @@ body.dark .resource-card {
   color: var(--dark-text);
 }
 
+body.dark .resource-card p {
+  color: var(--dark-text);
+}
+
+body.dark .resource-card h3 {
+  color: var(--dark-text);
+}
+
+
 .resource-card button {
   background: var(--dark-yellow);
   color: var(--dark-text);
@@ -1140,7 +1136,7 @@ body.dark .tab-btn:hover:not(.active) {
 }
 
 body.dark #assessmentContent {
-  color: var(--text-dark);
+  color: black;
 }
 
 #assessmentContent p {
@@ -1157,7 +1153,7 @@ body.dark #assessmentContent {
   padding: 14px 14px 14px 20px;
   border-radius: var(--radius);
   cursor: pointer;
-  border: none;
+  border: 1px solid var(--accent);
   font-size: 1rem;
   color: var(--text);
   margin-bottom: 10px;
@@ -1208,7 +1204,7 @@ body.dark #assessmentContent form label {
 }
 
 body.dark #assessmentContent form label:hover {
-  background-color: var(--accent-dark);
+  background-color: var(--accent);
   color: #fff;
 }
 
