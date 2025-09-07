@@ -75,7 +75,7 @@ def chat():
             {"role": "user", "parts": [{"text": msg}]}
         ]
     }
-    gemini_url = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent'
+    gemini_url = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent'
     r = requests.post(gemini_url, headers=headers, json=data)
     if r.ok:
         reply = r.json().get('candidates', [{}])[0].get('content', {}).get('parts', [{}])[0].get('text', 'Sorry, no response.')
