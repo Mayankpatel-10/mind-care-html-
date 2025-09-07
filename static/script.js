@@ -1,194 +1,230 @@
-// --- Mood Selection ---
+// Mood Selection
 let selectedMood = null;
 const moodBtns = document.querySelectorAll('.mood-btn');
 moodBtns.forEach(btn => {
-    btn.addEventListener('click', () => {
-        moodBtns.forEach(bt => bt.classList.remove('selected'));
-        btn.classList.add('selected');
-        selectedMood = btn.dataset.mood;
-    });
+  btn.addEventListener('click', () => {
+    moodBtns.forEach(b => b.classList.remove('selected'));
+    btn.classList.add('selected');
+    selectedMood = btn.dataset.mood;
+  });
 });
 
-// --- Save Mood ---
 document.getElementById('saveMood').addEventListener('click', async () => {
-    const note = document.getElementById('mood-note').value;
-    if (!selectedMood) {
-        alert("Select a mood first!");
-        return;
-    }
-    await fetch('/api/mood', {
-        method: 'POST',
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ mood: selectedMood, note: note })
-    });
-    alert("Mood saved!");
+  const note = document.getElementById('mood-note').value.trim();
+  if (!selectedMood) {
+    alert('Please select a mood before saving.');
+    return;
+  }
+  await fetch('/api/mood', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ mood: selectedMood, note }),
+  });
+  alert('Mood saved successfully');
 });
 
-// --- Chart.js Mood Trend ---
-let moodChart = null;
+// Chart.js Mood Trend initialization
+let moodChart;
 fetch('/api/mood/trends')
-    .then(res => res.json())
-    .then(data => {
-        const ctx = document.getElementById('moodChart').getContext('2d');
-        moodChart = new Chart(ctx, {
-            type: 'line',
-            data: {
-                labels: data.labels,
-                datasets: [{
-                    label: 'Mood Level',
-                    data: data.levels,
-                    backgroundColor: 'rgba(82, 86, 249, 0.23)',
-                    borderColor: 'rgba(82, 86, 249, 1)',
-                    fill: true,
-                    tension: 0.35
-                }]
-            }
-        });
-    });
+  .then(res => res.json())
+  .then(data => {
+    const ctx = document.getElementById('moodChart').getContext('2d');
+    moodChart = new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: data.labels,
+        datasets: [{
+          label: 'Mood Level',
+          data: data.levels,
+          backgroundColor: 'rgba(186, 134, 11, 0.15)',
+          borderColor: '#b886b',
+          fill: true,
+          tension: 0.35
+        }]
+      },
+      options: {
+        responsive: true,
+        scales: {
+          y: {
+            min: 0,
+            max: 4,
+            ticks: {
+              stepSize: 1,
+              callback: val => ['None', 'Low', 'Moderate', 'High', 'Very High'][val] || val,
+            }
+          }
+        }
+      }
+    });
+  });
 
-// --- Relaxation Station Sounds ---
-const sounds = {
-    nature: "/static/nature.mp3",
-    rain: "/static/rain.mp3",
-    meditation: "/static/meditation.mp3"
-};
-document.querySelectorAll('.sound-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-        document.getElementById('relaxAudio').src = sounds[btn.dataset.sound];
-        document.getElementById('relaxAudio').play();
-    });
-});
-
-// --- Chat Assistant: Text + Voice ---
-// Text-to-Speech: speaks assistant replies
+// Chat Assistant Voice and Text Handling
 function speak(text) {
-    if ('speechSynthesis' in window) {
-        const utter = new SpeechSynthesisUtterance(text);
-        utter.lang = 'en-US';
-        window.speechSynthesis.speak(utter);
-    }
+  if (!('speechSynthesis' in window)) return;
+  const utter = new SpeechSynthesisUtterance(text);
+  utter.lang = 'en-US';
+  speechSynthesis.speak(utter);
 }
 
-// Speech Recognition: mic button triggers this
-let recognition = null;
-if ('webkitSpeechRecognition' in window) {
-    recognition = new webkitSpeechRecognition();
-} else if ('SpeechRecognition' in window) {
-    recognition = new SpeechRecognition();
-}
+let recognition;
+if ('webkitSpeechRecognition' in window) recognition = new webkitSpeechRecognition();
+else if ('SpeechRecognition' in window) recognition = new SpeechRecognition();
+
 if (recognition) {
-    recognition.lang = 'en-US';
-    recognition.interimResults = false;
-    recognition.onresult = (event) => {
-        const transcript = event.results[0][0].transcript;
-        document.getElementById('chatInput').value = transcript;
-        document.getElementById('chatForm').dispatchEvent(new Event('submit', {cancelable: true, bubbles: true}));
-    };
-    recognition.onerror = (event) => {
-        alert("Speech Recognition Error: " + event.error);
-    };
+  recognition.lang = 'en-US';
+  recognition.interimResults = false;
+  recognition.onresult = event => {
+    const transcript = event.results[0][0].transcript;
+    const input = document.getElementById('chatInput');
+    input.value = transcript;
+    input.form.requestSubmit();
+  };
+  recognition.onerror = e => alert(`Speech Recognition error: ${e.error}`);
 }
+
 const micBtn = document.getElementById('micBtn');
-if(micBtn) {
-    micBtn.addEventListener('click', () => {
-        if (recognition) recognition.start();
-        else alert("Speech recognition not supported in this browser.");
-    });
-}
+if (micBtn) micBtn.addEventListener('click', () => {
+  if (recognition) recognition.start();
+  else alert('Speech recognition not supported');
+});
 
 const chatBox = document.getElementById('chatBox');
-document.getElementById('chatForm').addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const input = document.getElementById('chatInput');
-    const msg = input.value.trim();
-    if(msg==='') return;
-    chatBox.innerHTML += `<div class="user-msg">${msg}</div>`;
-    input.value = '';
-    chatBox.scrollTop = chatBox.scrollHeight;
-    chatBox.innerHTML += `<div class="bot-msg">...</div>`;
-    chatBox.scrollTop = chatBox.scrollHeight;
-    const response = await fetch('/api/chat', {
-        method: 'POST',
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ message: msg })
-    });
-    const json = await response.json();
-    const botMsgEl = document.querySelector(".bot-msg:last-child");
-    botMsgEl.textContent = json.reply;
-    chatBox.scrollTop = chatBox.scrollHeight;
-    // Voice output for assistant reply
-    speak(json.reply);
+document.getElementById('chatForm').addEventListener('submit', async e => {
+  e.preventDefault();
+  const input = document.getElementById('chatInput');
+  const msg = input.value.trim();
+  if (!msg) return;
+  chatBox.insertAdjacentHTML('beforeend', `<div class="user-msg">${msg}</div>`);
+  input.value = '';
+  chatBox.insertAdjacentHTML('beforeend', `<div class="bot-msg">...</div>`);
+  chatBox.scrollTop = chatBox.scrollHeight;
+
+  const response = await fetch('/api/chat', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ message: msg }),
+  });
+  const json = await response.json();
+  const botMsg = chatBox.querySelector('.bot-msg:last-child');
+  botMsg.textContent = json.reply;
+  chatBox.scrollTop = chatBox.scrollHeight;
+
+  speak(json.reply);
 });
 
-// --- Assessments (dummy content, implement real logic as needed) ---
+// Mental Health Assessment Setup
 const assessments = {
-    anxiety: [
-        "How often have you felt nervous, anxious, or on edge over the last two weeks?",
-        "How often have you been unable to stop worrying?"
-    ],
-    depression: [
-        "How often have you felt down or hopeless during the last 2 weeks?",
-        "Have you had little interest or pleasure in doing things?"
-    ],
-    stress: [
-        "How often have you felt stressed or overwhelmed in the past month?"
-    ]
+  anxiety: [
+    'Over the last two weeks, how often have you felt nervous, anxious, or on edge?',
+    'Over the last two weeks, how often have you felt unable to stop worrying?',
+    'Over the last two weeks, how often have you felt restless or unable to sit still?',
+    'Over the last two weeks, how often have you felt easily annoyed or irritable?',
+    'Over the last two weeks, how often have you felt afraid that something awful might happen?'
+  ],
+  depression: [
+    'Over the last two weeks, how often have you felt down or hopeless?',
+    'Over the last two weeks, how often have you had little interest or pleasure in doing things?',
+    'Over the last two weeks, how often have you had trouble sleeping?',
+    'Over the last two weeks, how often have you felt tired or had low energy?',
+    'Over the last two weeks, how often have you felt worthless or guilty?'
+  ],
+  stress: [
+    'Over the last month, how often have you felt overwhelmed?',
+    'Over the last month, how often have you felt nervous or tense?',
+    'Over the last month, how often have you felt difficulties piling up and overwhelming you?'
+  ]
 };
+
 let currentAssessment = 'anxiety';
 let currentQuestion = 0;
+let answers = [];
+
 function renderAssessment() {
-    const questions = assessments[currentAssessment];
-    document.getElementById('assessmentContent').innerHTML = `
-        <div>
-            <strong>Question ${currentQuestion+1}/${questions.length}</strong>
-            <p>${questions[currentQuestion]}</p>
-            <input type="radio" name="ans" value="0"> Not at all<br>
-            <input type="radio" name="ans" value="1"> Several days<br>
-            <input type="radio" name="ans" value="2"> More than half the days<br>
-            <input type="radio" name="ans" value="3"> Nearly every day<br>
-            <button onclick="nextAssessmentQuestion()">Next Question</button>
-        </div>`;
+  const questions = assessments[currentAssessment];
+  if (currentQuestion >= questions.length) {
+    showAssessmentResult();
+    return;
+  }
+  const container = document.getElementById('assessmentContent');
+  container.innerHTML = `
+    <div>
+      <strong>Question ${currentQuestion + 1} of ${questions.length}</strong>
+      <p style="margin: 16px 0;">${questions[currentQuestion]}</p>
+      <form id="assessmentForm">
+        <label><input type="radio" name="ans" value="0" required> Not at all</label><br>
+        <label><input type="radio" name="ans" value="1"> Several days</label><br>
+        <label><input type="radio" name="ans" value="2"> More than half the days</label><br>
+        <label><input type="radio" name="ans" value="3"> Nearly every day</label><br>
+        <button type="submit" style="margin-top:12px; padding: 8px 18px; border:none; border-radius:8px; background-color: var(--accent); color:#fff;">Next</button>
+      </form>
+    </div>
+  `;
+  document.getElementById('assessmentForm').addEventListener('submit', e => {
+    e.preventDefault();
+    const val = e.target.ans.value;
+    answers.push(Number(val));
+    currentQuestion++;
+    renderAssessment();
+  });
 }
-window.nextAssessmentQuestion = function() {
-    const questions = assessments[currentAssessment];
-    currentQuestion++;
-    if(currentQuestion >= questions.length) {
-        document.getElementById('assessmentContent').innerHTML = '<p>Assessment complete. Results processing coming soon.</p>';
-        currentQuestion = 0;
-        return;
-    }
-    renderAssessment();
-};
+
+function showAssessmentResult() {
+  const total = answers.reduce((a, b) => a + b, 0);
+  let interpretation = '';
+  if (total <= 9) interpretation = "Minimal or no symptoms.";
+  else if (total <= 18) interpretation = "Mild symptoms; monitor and self-care.";
+  else if (total <= 27) interpretation = "Moderate symptoms; consider seeking professional help.";
+  else interpretation = "Severe symptoms; immediate professional consultation recommended.";
+
+  const container = document.getElementById('assessmentContent');
+  container.innerHTML = `
+    <div>
+      <h3>Assessment Complete</h3>
+      <p>Your total score is <strong>${total}</strong>.</p>
+      <p>${interpretation}</p>
+      <button id="restartAssessment" style="margin-top: 12px; padding: 8px 18px; border: none; border-radius: 8px; background-color: var(--accent); color: #fff;">Retake</button>
+    </div>
+  `;
+  document.getElementById('restartAssessment').addEventListener('click', () => {
+    currentQuestion = 0;
+    answers = [];
+    renderAssessment();
+  });
+}
+
 document.querySelectorAll('.tab-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-        document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
-        btn.classList.add('active');
-        currentAssessment = btn.dataset.tab;
-        currentQuestion = 0;
-        renderAssessment();
-    });
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    currentAssessment = btn.dataset.tab;
+    currentQuestion = 0;
+    answers = [];
+    renderAssessment();
+  });
 });
+
+// Initialize Assessment on page load
 renderAssessment();
 
-// --- Theme toggle elements ---
+// Theme Toggle Logic
 const themeToggle = document.getElementById('themeToggle');
+const body = document.body;
 const modeLabel = document.querySelector('.mode-label');
-const savedTheme = localStorage.getItem('theme') || 'light';
-if (savedTheme === 'dark') {
-  document.body.classList.add('dark-theme');
-  themeToggle.checked = true;
-  modeLabel.textContent = 'Dark Mode';
-} else {
-  modeLabel.textContent = 'Light Mode';
-}
+
 themeToggle.addEventListener('change', () => {
-    if (themeToggle.checked) {
-        document.body.classList.add('dark-theme');
-        modeLabel.textContent = 'Dark Mode';
-        localStorage.setItem('theme', 'dark');
-    } else {
-        document.body.classList.remove('dark-theme');
-        modeLabel.textContent = 'Light Mode';
-        localStorage.setItem('theme', 'light');
-    }
+  if (themeToggle.checked) {
+    body.classList.add('dark');
+    modeLabel.textContent = 'Dark Mode';
+    localStorage.setItem('theme', 'dark');
+  } else {
+    body.classList.remove('dark');
+    modeLabel.textContent = 'Light Mode';
+    localStorage.setItem('theme', 'light');
+  }
 });
+
+if (localStorage.getItem('theme') === 'dark') {
+  body.classList.add('dark');
+  themeToggle.checked = true;
+  modeLabel.textContent = 'Dark Mode';
+}
