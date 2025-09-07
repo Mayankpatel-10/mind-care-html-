@@ -1,383 +1,661 @@
 :root {
-    --bg-light: #f6f8fc;
-    --bg-dark: #131626;
-    --card-light: linear-gradient(135deg, #716dab 0%, #509fe5 100%);
-    --card-dark: linear-gradient(135deg, #23266a 0%, #349fed 100%);
-    --text-light: #23283a;
-    --text-dark: #eee;
-    --accent: #543fde;
-    --accent-dark: #65a9ff;
-    --card-radius: 17px;
+  /* Base colors */
+  --main-bg: #edf0f6;
+  --sidebar-bg: #656d90;
+  --sidebar-icon-bg: #fff;
+  --accent: #b8860b;
+  --accent-2: #b8860b;
+  --accent-rose: #ea4166;
+  --card-bg: #fff;
+  --pale-card: #f6f7fb;
+  --topbar-bg: #f6f7fb;
+  --border-color: #e1e7f0;
+  --headline: #1f2336;
+  --text: #323657;
+  --muted: #7c839c;
+  --progress-bg: #e0e7f5;
+  --progress-fill: #b8860b;
+  --radius: 20px;
+  --shadow: 0 8px 24px 0 rgba(60,72,109,0.08);
+  --font: 'Inter', 'Segoe UI', Arial, sans-serif;
+
+  /* Dark theme colors */
+  --dark-yellow: #b8860b; /* Dark Goldenrod */
+  --dark-yellow-hover: #9b6f08;
+  --light-bg: #ffffff;
+  --light-text: #000000;
+  --dark-bg: #000000;
+  --dark-text: #ffffff;
 }
 
 body {
-    margin: 0;
-    font-family: 'Segoe UI', sans-serif;
-    background: var(--bg-light);
-    color: var(--text-light);
-    transition: background 0.4s, color 0.4s;
+  margin: 0;
+  font-family: var(--font);
+  background-color: var(--main-bg);
+  color: var(--text);
+  min-height: 100vh;
+  transition: background-color 0.4s ease, color 0.4s ease;
 }
 
-/* Pinterest-style grid layout */
-.dashboard-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    grid-auto-rows: minmax(200px, auto);
-    gap: 20px;
-    padding: 20px;
-    width: 95%;
-    max-width: 1280px;
-    margin: 60px auto 20px auto;
+body.dark {
+  background-color: var(--dark-bg);
+  color: var(--dark-text);
 }
 
-/* Card sizing variations (Pinterest style) */
-/* Smaller cards */
-.mood-section { 
-    grid-row: span 1; 
-    min-height: 240px;
-}
-.chat-section { 
-    grid-row: span 2; 
-    min-height: 280px;
-}
-.relax-section { 
-    grid-row: span 1; 
-    min-height: 240px;
-}
-
-/* Regular sized cards */
-.trends-section { 
-    grid-row: span 1; 
-    min-height: 240px;
-}
-.assessment-section { 
-    grid-row: span 1; 
-    min-height: 240px;
-}
-.resources-section { 
-    grid-column: 1 / -1;
-    min-height: 180px;
-}
-
-.card {
-    background: var(--card-light);
-    color: #fff;
-    border-radius: var(--card-radius);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    padding: 20px;
-    transition: all 0.3s ease;
-    position: relative;
-    overflow: hidden;
-    break-inside: avoid;
-}
-
-/* Make specific cards more compact */
-.mood-section .card,
-.chat-section .card,
-.relax-section .card {
-    padding: 18px;
-}
-
-.mood-section .card h2,
-.chat-section .card h2,
-.relax-section .card h2 {
-    margin-bottom: 14px;
-    font-size: 1.2rem;
-}
-
-/* Pinterest-style card hover effect */
-.card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 12px 20px rgba(0, 0, 0, 0.15);
-}
-
-.card h2 {
-    margin-top: 0;
-    margin-bottom: 18px;
-    font-weight: 600;
-    font-size: 1.3rem;
-}
-
-/* Resource cards - Pinterest pin style */
-.resource-cards {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-    gap: 16px;
-    margin-top: 16px;
-}
-
-.resource-card {
-    background: #fff;
-    color: var(--text-light);
-    border-radius: 16px;
-    padding: 16px;
-    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
-    transition: all 0.2s ease;
-    break-inside: avoid;
-}
-
-.resource-card:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.1);
-}
-
-.resource-card button {
-    background: #ede7fd;
-    color: #543fde;
-    border: none;
-    border-radius: 20px;
-    padding: 8px 16px;
-    font-weight: 600;
-    cursor: pointer;
-    font-size: 0.9rem;
-    transition: all 0.2s ease;
-}
-
-.resource-card button:hover {
-    background: #e0d7fc;
-    transform: scale(1.05);
-}
-
-.guide-section {
-    margin-top: 20px;
-    text-align: center;
-}
-
-.footer {
-    grid-column: 1 / -1;
-    background: none;
-    text-align: center;
-    color: #79a6d1;
-    padding: 20px;
-    margin-top: 30px;
-}
-
-/* Dark Theme */
-body.dark-theme {
-    background: var(--bg-dark);
-    color: var(--text-dark);
-}
-
-body.dark-theme .card {
-    background: var(--card-dark);
-    color: var(--text-dark);
-}
-
-body.dark-theme .resource-card {
-    background: #23266a;
-    color: #eee;
-}
-
-body.dark-theme footer {
-    color: var(--accent-dark);
-}
-
-/* Centered login page */
-body.login-bg, html.login-bg {
-    min-height: 100vh;
-    margin: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: var(--bg-light);
-}
-
-body.dark-theme.login-bg, html.dark-theme.login-bg {
-    background: var(--bg-dark);
-}
-
-.login-card {
-    background: var(--card-light);
-    color: #fff;
-    border-radius: 24px;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-    padding: 40px 35px 30px 35px;
-    width: 340px;
-    display: flex;
-    flex-direction: column;
-    align-items: stretch;
-    transition: all 0.3s ease;
-}
-
-.login-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
-}
-
-body.dark-theme .login-card {
-    background: var(--card-dark);
-    color: #fff;
-}
-
-.login-card h2 {
-    margin-bottom: 24px;
-    text-align: center;
-}
-
-.login-card label {
-    font-weight: 600;
-    margin: 10px 0 3px;
-    color: inherit;
-}
-
-.login-card input[type="text"], 
-.login-card input[type="password"] {
-    font-size: 1.1rem;
-    border-radius: 12px;
-    border: 1px solid #d2d4e6;
-    padding: 12px;
-    margin-bottom: 16px;
-    transition: all 0.2s ease;
-}
-
-.login-card input[type="text"]:focus, 
-.login-card input[type="password"]:focus {
-    outline: none;
-    border-color: var(--accent);
-    box-shadow: 0 0 0 3px rgba(84, 63, 222, 0.2);
-}
-
-body.dark-theme .login-card input {
-    border: 1px solid #3a445f;
-    background: #222a3a;
-    color: #eee;
-}
-
-.login-card button {
-    background: #4269ee;
-    color: #fff;
-    border: none;
-    border-radius: 20px;
-    padding: 12px;
-    font-size: 1rem;
-    cursor: pointer;
-    font-weight: bold;
-    margin-top: 8px;
-    transition: all 0.3s ease;
-}
-
-.login-card button:hover {
-    background: #3251c8;
-    transform: translateY(-2px);
-}
-
-/* Theme Toggle Switch - Pinterest style floating button */
 .theme-switch-wrapper {
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    user-select: none;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    z-index: 1000;
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background: var(--card-bg);
+  padding: 6px 14px;
+  border-radius: 30px;
+  box-shadow: var(--shadow);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  user-select: none;
+  cursor: pointer;
+  z-index: 1000;
+  transition: background-color 0.4s ease;
+}
+
+body.dark .theme-switch-wrapper {
+  background: var(--dark-bg);
+  box-shadow: 0 8px 24px 0 rgba(60, 72, 109, 0.18);
+}
+
+.theme-switch-wrapper input[type="checkbox"] {
+  display: none;
 }
 
 .theme-switch {
-    position: relative;
-    width: 50px;
-    height: 24px;
+  position: relative;
+  display: inline-block;
+  width: 50px;
+  height: 26px;
+  background: var(--progress-bg);
+  border-radius: 20px;
+  transition: background-color 0.3s ease;
 }
 
-.theme-switch input {
-    opacity: 0;
-    width: 0;
-    height: 0;
+body.dark .theme-switch {
+  background: #333;
 }
 
-.slider {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: #ccc;
-    border-radius: 24px;
-    transition: 0.4s;
-    cursor: pointer;
+.theme-switch::after {
+  content: "";
+  position: absolute;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  top: 2px;
+  left: 3px;
+  background: var(--light-bg);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  transition: left 0.3s ease;
 }
 
-.slider:before {
-    position: absolute;
-    content: "";
-    height: 18px;
-    width: 18px;
-    left: 3px;
-    bottom: 3px;
-    background: #fff;
-    border-radius: 50%;
-    transition: 0.4s;
-}
-
-.theme-switch input:checked + .slider {
-    background: var(--accent);
-}
-
-.theme-switch input:checked + .slider:before {
-    transform: translateX(26px);
+.theme-switch-wrapper input[type="checkbox"]:checked + .theme-switch::after {
+  left: 25px;
 }
 
 .mode-label {
-    font-size: 0.9rem;
-    color: var(--accent);
-    transition: color 0.5s ease;
-    font-weight: 600;
+  font-weight: 600;
+  color: var(--accent);
+  transition: color 0.3s ease;
 }
 
-body.dark-theme .mode-label {
-    color: var(--accent-dark);
+body.dark .mode-label {
+  color: var(--dark-yellow);
 }
 
-/* Responsive adjustments */
-@media (max-width: 980px) {
-    .dashboard-grid {
-        grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-        gap: 16px;
-        padding: 16px;
-        margin-top: 50px;
-    }
-    
-    .resource-cards {
-        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    }
+
+/* Dashboard grid */
+.dashboard-grid {
+  max-width: 1300px;
+  margin: 80px auto 40px auto;
+  padding: 0 20px 80px;
+  padding-bottom: 80px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 30px;
+  overflow: visible;
 }
 
-@media (max-width: 600px) {
-    .dashboard-grid {
-        grid-template-columns: 1fr;
-        gap: 12px;
-        padding: 12px;
-    }
-    
-    .card {
-        padding: 18px 14px;
-    }
-    
-    .mood-section .card,
-    .chat-section .card,
-    .relax-section .card {
-        padding: 16px 12px;
-    }
-    
-    .login-card {
-        width: 85%;
-        padding: 30px 25px;
-    }
+/* Card styling */
+.card {
+  background: var(--light-bg);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 24px 32px;
+  display: flex;
+  flex-direction: column;
+  color: var(--text);
+  transition: background-color 0.4s ease, box-shadow 0.4s ease, color 0.4s ease;
+  overflow: hidden;
+  word-break: break-word;
+  box-sizing: border-box;
+  position: relative;
 }
 
+.card * {
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+body.dark .card {
+  background: var(--dark-bg);
+  box-shadow: 0 8px 24px 0 rgba(60,72,109,0.3);
+  color: var(--dark-text);
+}
+
+/* Mood Section Heading */
+.mood-section h2 {
+  margin-bottom: 20px;
+  font-weight: 700;
+  font-size: 1.7rem;
+  color: var(--headline);
+  transition: color 0.4s ease;
+}
+
+body.dark .mood-section h2 {
+  color: var(--dark-text);
+}
+
+/* Mood Buttons */
+.mood-options {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.mood-btn {
+  flex: 1;
+  background: var(--pale-card);
+  border: none;
+  border-radius: var(--radius);
+  padding: 12px 0;
+  font-size: 1.8rem;
+  cursor: pointer;
+  color: var(--text);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: background-color 0.4s ease, color 0.4s ease, transform 0.3s ease;
+}
+
+body.dark .mood-btn {
+  background: var(--dark-bg);
+  color: var(--dark-text);
+}
+
+.mood-btn span {
+  margin-top: 8px;
+  font-size: 1rem;
+}
+
+.mood-btn:hover,
+.mood-btn.selected {
+  background: var(--dark-yellow);
+  color: var(--dark-text);
+  transform: scale(1.05);
+}
+
+/* Mood Note */
+#mood-note {
+  width: 100%;
+  margin-top: 20px;
+  border-radius: var(--radius);
+  border: 1.5px solid var(--border-color);
+  padding: 14px 18px;
+  font-size: 1.05rem;
+  resize: vertical;
+  color: var(--text);
+  box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.05);
+  background: var(--light-bg);
+  transition: border-color 0.3s ease, background-color 0.4s ease, color 0.4s ease;
+}
+
+body.dark #mood-note {
+  background: var(--dark-bg);
+  border-color: #444;
+  color: var(--dark-text);
+}
+
+#mood-note:focus {
+  border-color: var(--dark-yellow);
+  outline: none;
+}
+
+body.dark #mood-note:focus {
+  border-color: var(--dark-yellow);
+}
+
+/* Save Mood Button */
+#saveMood {
+  align-self: flex-end;
+  margin-top: 18px;
+  background: var(--dark-yellow);
+  color: var(--dark-text);
+  border: none;
+  padding: 12px 26px;
+  font-size: 1rem;
+  font-weight: 600;
+  border-radius: var(--radius);
+  cursor: pointer;
+  box-shadow: 0 6px 15px rgba(184,134,11,0.6);
+  transition: background-color 0.3s ease;
+}
+
+#saveMood:hover {
+  background: #937508;
+}
+
+/* Chat Section Heading */
+.chat-section h2 {
+  margin-bottom: 20px;
+  font-weight: 700;
+  font-size: 1.7rem;
+  color: var(--headline);
+  transition: color 0.4s ease;
+}
+
+body.dark .chat-section h2 {
+  color: var(--dark-text);
+}
+
+/* Chat Box */
+.chat-box {
+  flex-grow: 1;
+  height: 320px;
+  background: var(--pale-card);
+  border-radius: var(--radius);
+  padding: 20px;
+  overflow-y: auto;
+  box-shadow: inset 0 0 16px rgba(0, 0, 0, 0.07);
+  margin-bottom: 20px;
+  color: var(--text);
+  font-size: 1rem;
+  transition: background-color 0.4s ease, color 0.4s ease;
+}
+
+body.dark .chat-box {
+  background: var(--dark-bg);
+  color: var(--dark-text);
+}
+
+/* User and Bot messages */
+.user-msg,
+.bot-msg {
+  padding: 12px 18px;
+  border-radius: 24px;
+  margin-bottom: 16px;
+  max-width: 65%;
+  word-wrap: break-word;
+  box-shadow: 0 3px 14px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.3s ease;
+}
+
+.user-msg {
+  background: var(--dark-yellow);
+  color: var(--dark-text);
+  margin-left: auto;
+  box-shadow: 0 0 20px rgba(184, 134, 11, 0.6);
+}
+
+.bot-msg {
+  background: var(--card-bg);
+  color: var(--text);
+  margin-right: auto;
+}
+
+body.dark .bot-msg {
+  background: var(--dark-bg);
+  color: var(--dark-text);
+}
+
+/* Chat Form */
+#chatForm {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0;
+  margin: 0;
+  width: 100%;
+  position: relative;
+}
+#chatInput {
+  flex: 1 1 0%;
+  border-radius: 18px;
+  border: 1.5px solid var(--border-color);
+  padding: 14px 18px;
+  font-size: 1rem;
+  background: var(--pale-card);
+  color: var(--text);
+  outline: none;
+  min-width: 0;
+}
+
+body.dark #chatInput {
+  background: var(--dark-bg);
+  border-color: #444;
+  color: var(--dark-text);
+}
+
+#chatInput:focus {
+  outline: none;
+  border-color: var(--dark-yellow);
+  box-shadow: 0 0 12px rgba(184, 134, 11, 0.7);
+}
+
+body.dark #chatInput:focus {
+  border-color: var(--dark-yellow);
+}
+
+/* Mic Button */
 #micBtn {
-    background: var(--accent);
-    color: #fff;
-    border: none;
-    border-radius: 50%;
-    width: 36px;
-    height: 36px;
-    font-size: 1.2rem;
-    margin-right: 6px;
-    cursor: pointer;
-    transition: background 0.3s;
-    vertical-align: middle;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  border: 2.5px solid var(--dark-yellow);
+  background: transparent;
+  color: var(--dark-yellow);
+  font-size: 1.4rem;
+  cursor: pointer;
+  box-shadow: 0 0 8px var(--dark-yellow);
+  transition: background-color 0.3s, color 0.3s ease;
 }
+
 #micBtn:hover {
-    background: var(--accent-dark);
+  background: var(--dark-yellow);
+  color: var(--dark-text);
 }
+
+body.dark #micBtn {
+  border-color: var(--dark-yellow);
+  color: var(--dark-yellow);
+  box-shadow: 0 0 12px var(--dark-yellow);
+}
+
+body.dark #micBtn:hover {
+  background: var(--dark-yellow-hover);
+  color: var(--dark-text);
+}
+
+/* Mood Trend Section */
+.trends-section h2,
+.relax-section h2,
+.assessment-section h2,
+.resources-section h2,
+footer {
+  transition: color 0.4s ease, background-color 0.4s ease;
+}
+
+body.dark .trends-section h2,
+body.dark .relax-section h2,
+body.dark .assessment-section h2,
+body.dark .resources-section h2 {
+  color: var(--dark-text);
+}
+
+/* Resource Cards and buttons */
+.resource-card {
+  background: var(--card-bg);
+  color: var(--text);
+  transition: background-color 0.4s ease, color 0.4s ease;
+}
+
+body.dark .resource-card {
+  background: var(--dark-bg);
+  color: var(--dark-text);
+}
+
+.resource-card button {
+  background: var(--dark-yellow);
+  color: var(--dark-text);
+  border: none;
+  padding: 11px 24px;
+  font-weight: 600;
+  border-radius: var(--radius);
+  cursor: pointer;
+  box-shadow: 0 5px 15px rgba(184, 134, 11, 0.6);
+  transition: background-color 0.3s ease;
+}
+
+.resource-card button:hover {
+  background: var(--dark-yellow-hover);
+}
+
+body.dark .resource-card button {
+  background: var(--dark-yellow);
+  box-shadow: 0 5px 18px rgba(184, 134, 11, 0.9);
+}
+
+body.dark .resource-card button:hover {
+  background: #a07604;
+}
+
+/* Footer */
+footer {
+  width: 100%;
+  padding: 24px 18px;
+  display: flex;
+  justify-content: space-around;
+  gap: 32px;
+  background: var(--pale-card);
+  border-top-left-radius: var(--radius);
+  border-top-right-radius: var(--radius);
+  color: var(--muted);
+  font-size: 0.9rem;
+  line-height: 1.5;
+  text-align: center;
+}
+
+body.dark footer {
+  background: var(--pale-card-dark);
+  color: var(--muted-dark);
+}
+
+footer div span {
+  font-weight: 700;
+  display: block;
+  margin-top: 5px;
+  color: var(--dark-yellow);
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  .dashboard-grid {
+    grid-template-columns: 1fr !important;
+  }
+  .resource-cards {
+    flex-direction: column;
+  }
+}
+
+/* Assessment Section */
+.assessment-section {
+  background: var(--card-bg);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 28px 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  transition: background-color 0.4s, box-shadow 0.4s;
+  margin-bottom: 50px; /* Space below assessment to prevent overlap */
+  z-index: 1;
+  position: relative;
+}
+
+body.dark .assessment-section {
+  background: var(--card-bg-dark);
+  box-shadow: var(--shadow-dark);
+  color: var(--dark-text);
+}
+
+.assessment-section h2 {
+  font-weight: 700;
+  font-size: 2rem;
+  margin-bottom: 8px;
+  color: var(--headline);
+  transition: color 0.4s ease;
+}
+
+body.dark .assessment-section h2 {
+  color: var(--headline-dark);
+}
+
+.tabs {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 18px;
+  border-bottom: 2px solid var(--border-color);
+  /* Ensure tabs don't overflow the card */
+  overflow-x: auto;
+  flex-wrap: wrap;
+  padding-bottom: 4px;
+}
+
+.tab-btn {
+  position: static !important;
+  min-width: 120px;
+  font-size: 1.1rem;
+  white-space: nowrap;
+  border: none;
+  padding: 12px 16px 10px 16px;
+  background: none;
+  border-radius: var(--radius) var(--radius) 0 0;
+  font-weight: 600;
+  color: var(--muted);
+  box-shadow: none;
+  transition: background 0.2s, color 0.2s;
+}
+
+.tab-btn.active {
+  color: var(--accent);
+  background: #fff;
+  border-bottom: 3px solid var(--accent);
+  font-weight: bold;
+}
+
+.tab-btn:hover:not(.active) {
+  color: var(--accent-2);
+}
+
+body.dark .tabs {
+  border-bottom-color: var(--border-color-dark);
+}
+
+body.dark .tab-btn {
+  color: var(--muted-dark);
+}
+
+body.dark .tab-btn.active {
+  background: var(--dark-bg);
+  border-bottom: 3px solid var(--dark-yellow);
+  color: var(--dark-yellow);
+}
+
+body.dark .tab-btn:hover:not(.active) {
+  color: var(--accent-2-dark);
+}
+
+#assessmentContent {
+  width: 100%;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  padding-bottom: 6px;
+}
+
+body.dark #assessmentContent {
+  color: var(--text-dark);
+}
+
+#assessmentContent p {
+  font-size: 1.15rem;
+  line-height: 1.6;
+  font-weight: 600;
+  margin-bottom: 16px;
+}
+
+#assessmentContent form label {
+  display: block;
+  width: 100%;
+  background: var(--pale-card);
+  padding: 14px 14px 14px 20px;
+  border-radius: var(--radius);
+  cursor: pointer;
+  border: none;
+  font-size: 1rem;
+  color: var(--text);
+  margin-bottom: 10px;
+  margin-right: 0;
+  box-sizing: border-box;
+}
+
+#assessmentContent form label:hover {
+  background-color: var(--accent);
+  color: #fff;
+}
+
+#assessmentContent form input[type="radio"] {
+  display: none;
+}
+
+#assessmentContent form input[type="radio"]:checked + label {
+  background-color: var(--accent);
+  color: #fff;
+  border-color: var(--accent-2);
+  font-weight: 700;
+  box-shadow: 0 6px 12px rgba(73, 81, 236, 0.7);
+}
+
+#assessmentContent button {
+  align-self: flex-start;
+  background-color: var(--accent);
+  color: #fff;
+  border: none;
+  padding: 12px 30px;
+  border-radius: var(--radius);
+  font-weight: 700;
+  font-size: 1rem;
+  cursor: pointer;
+  margin-top: 12px;
+  box-shadow: 0 8px 20px rgba(73, 81, 236, 0.8);
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+#assessmentContent button:hover {
+  background-color: var(--accent-2);
+  box-shadow: 0 10px 24px rgba(73, 81, 236, 1);
+}
+
+body.dark #assessmentContent form label {
+  background: var(--card-bg-dark);
+  color: var(--text-dark);
+}
+
+body.dark #assessmentContent form label:hover {
+  background-color: var(--accent-dark);
+  color: #fff;
+}
+
+body.dark #assessmentContent form input[type="radio"]:checked + label {
+  background-color: var(--accent-dark);
+  border-color: var(--accent-2-dark);
+  box-shadow: 0 6px 12px rgba(122, 132, 255, 0.7);
+}
+
+body.dark #assessmentContent button {
+  background-color: var(--accent-dark);
+  box-shadow: 0 8px 20px rgba(122, 132, 255, 0.8);
+}
+
+body.dark #assessmentContent button:hover {
+  background-color: var(--accent-2-dark);
+  box-shadow: 0 10px 24px rgba(122, 132, 255, 1);
+}
+
