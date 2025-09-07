@@ -1,123 +1,149 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>MindWell Dashboard</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <meta charset="UTF-8" />
+  <title>MindWell Dashboard</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
-    <!-- Theme Switch -->
-    <div class="theme-switch-wrapper">
-        <label class="theme-switch" for="themeToggle">
-            <input type="checkbox" id="themeToggle" />
-            <div class="slider"></div>
-        </label>
-        <span class="mode-label">Light Mode</span>
-    </div>
+  <!-- Theme Switch -->
+  <div class="theme-switch-wrapper">
+    <label class="theme-switch" for="themeToggle">
+      <input type="checkbox" id="themeToggle" />
+      <div class="slider"></div>
+    </label>
+    <span class="mode-label">Light Mode</span>
+  </div>
 
-    <div class="dashboard-grid">
-        <!-- Mood Section -->
-        <section class="card mood-section">
-            <h2>How are you feeling today?</h2>
-            <div class="mood-options">
-                <button class="mood-btn" data-mood="awful">😡<span>Awful</span></button>
-                <button class="mood-btn" data-mood="sad">😔<span>Sad</span></button>
-                <button class="mood-btn" data-mood="neutral">😐<span>Neutral</span></button>
-                <button class="mood-btn" data-mood="good">😊<span>Good</span></button>
-                <button class="mood-btn" data-mood="great">🤩<span>Great</span></button>
-            </div>
-            <textarea id="mood-note" placeholder="Add a note about your mood (optional)"></textarea>
-            <button id="saveMood">Save Mood</button>
-        </section>
+  <div class="dashboard-grid">
+    <!-- Mood Section -->
+    <section class="card mood-section">
+      <h2>How are you feeling today?</h2>
+      <div class="mood-options">
+        <button class="mood-btn" data-mood="awful">😡<span>Awful</span></button>
+        <button class="mood-btn" data-mood="sad">😔<span>Sad</span></button>
+        <button class="mood-btn" data-mood="neutral">😐<span>Neutral</span></button>
+        <button class="mood-btn" data-mood="good">😊<span>Good</span></button>
+        <button class="mood-btn" data-mood="great">🤩<span>Great</span></button>
+      </div>
+      <textarea id="mood-note" placeholder="Add a note about your mood (optional)"></textarea>
+      <button id="saveMood">Save</button>
+    </section>
 
-        <!-- Chat Assistant -->
-        <!-- Chat Assistant -->
-<section class="card chat-section">
-    <h2>MindWell Chat Assistant</h2>
-    <div class="chat-box" id="chatBox"></div>
-    <form id="chatForm" autocomplete="off">
-        <input type="text" id="chatInput" placeholder="Type your message..."/>
-        <button type="button" id="micBtn" title="Speak to chat">🎤</button>
+    <!-- Chat Assistant -->
+    <section class="card chat-section">
+      <h2>MindWell Chat Assistant</h2>
+      <div class="chat-box" id="chatBox"></div>
+      <form id="chatForm" autocomplete="off">
+        <input type="text" id="chatInput" placeholder="Type your message..." />
+        <button type="button" id="micBtn" title="Speak to chat">🎙️</button>
         <button type="submit">➤</button>
-    </form>
-</section>
+      </form>
+    </section>
 
+    <!-- Mood Trends -->
+    <section class="card trends-section">
+      <h2>Your Mood Trends</h2>
+      <canvas id="moodChart"></canvas>
+    </section>
 
-        <!-- Mood Trend -->
-        <section class="card trends-section">
-            <h2>Your Mood Trends</h2>
-            <canvas id="moodChart"></canvas>
-        </section>
+    <!-- Relaxation Station -->
+    <section class="card relax-section">
+      <h2>Relaxation Station</h2>
+      <iframe width="100%" height="80"
+        src="https://www.youtube.com/embed/YRJ6xoiRcpQ?autoplay=0&loop=1&playlist=YRJ6xoiRcpQ"
+        title="30 Minute Deep Meditation Music for Positive Energy" frameborder="0"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+      <h2>Soothing Nature Sounds</h2>
+      <iframe width="100%" height="80"
+        src="https://www.youtube.com/embed/1ZYbU82GVz4?autoplay=0&loop=1&playlist=1ZYbU82GVz4"
+        title="Relaxing Nature Sounds for Sleep or Meditation" frameborder="0"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    </section>
 
-        <!-- Relaxation Station -->
-        <section class="card relax-section">
-            <h2>Relaxation Station</h2>
-            <iframe width="100%" height="80" 
-                src="https://www.youtube.com/embed/YRJ6xoiRcpQ?autoplay=0&loop=1&playlist=YRJ6xoiRcpQ" 
-                title="30 Minute Deep Meditation Music for Positive Energy" frameborder="0" 
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
-            </iframe>
-        </section>
+    <!-- Mental Health Assessments -->
+    <section class="card assessment-section">
+      <h2>Mental Health Assessments</h2>
+      <div class="tabs">
+        <button class="tab-btn active" data-tab="anxiety">Anxiety Assessment</button>
+        <button class="tab-btn" data-tab="depression">Depression Assessment</button>
+        <button class="tab-btn" data-tab="stress">Stress Assessment</button>
+      </div>
+      <div id="assessmentContent"></div>
+    </section>
 
-        <!-- Assessments -->
-        <section class="card assessment-section">
-            <h2>Mental Health Assessments</h2>
-            <div class="tabs">
-                <button class="tab-btn active" data-tab="anxiety">Anxiety Assessment</button>
-                <button class="tab-btn" data-tab="depression">Depression Assessment</button>
-                <button class="tab-btn" data-tab="stress">Stress Assessment</button>
-            </div>
-            <div id="assessmentContent"></div>
-        </section>
+    <!-- Resources & Knowledge -->
+    <section class="card resources-section">
+      <h2>Resources & Knowledge</h2>
+      <div class="resource-cards">
+        <div class="resource-card">
+          <h3>Coping with Anxiety</h3>
+          <p>Learn effective techniques to manage anxiety in your daily life.</p>
+          <a href="https://adaa.org/tips" target="_blank" rel="noopener noreferrer">
+            <button>Read Article</button>
+          </a>
+        </div>
+        <div class="resource-card">
+          <h3>Sleep Better</h3>
+          <p>Improve your sleep quality with these evidence-based techniques.</p>
+          <a href="https://www.sleepfoundation.org/sleep-hygiene/healthy-sleep-tips-india" target="_blank" rel="noopener noreferrer">
+            <button>Read Article</button>
+          </a>
+        </div>
+        <div class="resource-card">
+          <h3>Stress Management</h3>
+          <p>Discover strategies to effectively manage and reduce stress.</p>
+          <a href="https://www.apa.org/topics/stress" target="_blank" rel="noopener noreferrer">
+            <button>Read Article</button>
+          </a>
+        </div>
+        <div class="resource-card">
+          <h3>National Mental Health Helpline (India)</h3>
+          <p>Available 24/7 for counseling and support.</p>
+          <p><strong>Phone:</strong> 14443 (Toll-Free)</p>
+        </div>
+        <div class="resource-card">
+          <h3>AASRA - Suicide Prevention Helpline (India)</h3>
+          <p>Specialized support for suicide prevention and crisis.</p>
+          <p><strong>Phone:</strong> +91-22-2754 6669</p>
+        </div>
+        <div class="resource-card">
+          <h3>Kiran Helpline (Govt. of India)</h3>
+          <p>Toll-Free Mental Health Helpline provided by Government of India.</p>
+          <p><strong>Phone:</strong> 1800-599-0019</p>
+        </div>
+      </div>
+    </section>
 
-        <!-- Resources & Knowledge -->
-        <section class="card resources-section">
-            <h2>Resources & Knowledge</h2>
-            <div class="resource-cards">
-                <div class="resource-card">
-                    <h3>Coping with Anxiety</h3>
-                    <p>Learn effective techniques to manage anxiety in your daily life.</p>
-                    <a href="https://adaa.org/tips" target="_blank" rel="noopener noreferrer">
-                        <button>Read Article</button>
-                    </a>
-                </div>
-                <div class="resource-card">
-                    <h3>Meditation Guide</h3>
-                    <p>A beginner's guide to meditation for stress relief and mental clarity.</p>
-                    <a href="https://www.mindful.org/how-to-meditate/" target="_blank" rel="noopener noreferrer">
-                        <button>Read Guide</button>
-                    </a>
-                </div>
-                <div class="resource-card">
-                    <h3>Sleep Better</h3>
-                    <p>Improve your sleep quality with these evidence-based techniques.</p>
-                    <a href="https://www.sleepfoundation.org/sleep-hygiene/healthy-sleep-tips-india" target="_blank" rel="noopener noreferrer">
-                        <button>Read Article</button>
-                    </a>
-                </div>
-            </div>
-        </section>
+    <!-- Meditation Video -->
+    <section class="card meditation-video">
+      <h2>Guided Meditation</h2>
+      <iframe width="100%" height="315" src="https://www.youtube.com/embed/inpok4MKVLM"
+              title="Guided Meditation for Beginners" frameborder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+      <h2>Breathing Exercise</h2>
+      <iframe width="100%" height="315" src="https://www.youtube.com/embed/odADwWzHR24"
+              title="4-7-8 Breathing Exercise" frameborder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        <h2>Progressive Muscle Relaxation</h2>
+      <iframe width="100%" height="315" src="https://www.youtube.com/embed/ihO02wUzgkc"
+              title="Progressive Muscle Relaxation" frameborder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    </section>
+  </div>
 
-        <!-- Meditation Video -->
-        <section class="card meditation-video">
-            <h2>Guided Meditation</h2>
-            <iframe width="100%" height="315" src="https://www.youtube.com/embed/inpok4MKVLM"
-                title="Guided Meditation for Beginners" frameborder="0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-        </section>
-
-        <!-- Footer -->
-        <footer>
-            <div class="footer-nav">
-                <div>Mindfulness<br><span>Practice techniques</span></div>
-                <div>Resources<br><span>Educational content</span></div>
-                <div>Tracking<br><span>Monitor progress</span></div>
-                <div>Support<br><span>Get help</span></div>
-            </div>
-        </footer>
+  <!-- Footer -->
+  <footer>
+    <div class="footer-nav">
+      <div>Mindfulness<br /><span>Practice techniques</span></div>
+      <div>Resources<br /><span>Educational content</span></div>
+      <div>Tracking<br /><span>Monitor progress</span></div>
+      <div>Support<br /><span>Get help</span></div>
     </div>
-    <script src="{{ url_for('static', filename='script.js') }}"></script>
+  </footer>
+
+  <script src="{{ url_for('static', filename='script.js') }}"></script>
 </body>
 </html>
